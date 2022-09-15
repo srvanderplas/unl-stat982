@@ -1,0 +1,146 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+\headheight=15pt
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Module 1, Homework 2}
+\newcommand{\hmwkDueDate}{September 20, 2022}
+\newcommand{\hmwkAuthorName}{}
+\newcommand{\hmwkClass}{Stat 982}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\: \hmwkTitle}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next
+page\ldots}\nobreak\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak}%
+
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak\nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]{\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.87\textwidth}#1\end{minipage}}\vspace{.1in}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+  
+\enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}
+   }%
+
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\\small{Due\ on\ \hmwkDueDate}}
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\begin{homeworkProblem} % Stat 643 Hw 5 Problem 2
+%(Shao Exercise 2.14) 
+(Truncated exponential families) Suppose that distributions $P_\eta$ have R-N derivatives with respect to a $\sigma$-finite measure $\mu$ of the form $f_\eta(x) = K(\eta) \exp\left(\sum_{i=1}^k\eta_iT_i(x)\right)h(x)$. For a measurable set $A$ with $P_\eta(A)>0$, consider the family of distributions $Q_\eta^A$ on $A$ with R-N derivatives with respect to $\mu$ $$g_\eta(x)\propto f_\eta(x)I[x\in A]$$
+
+Argue that this is an exponential family and say what you can about the natural parameter space for this family in comparison to that of the $P_\eta$ family.
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 4 Problem 8
+Suppose that $(X_1, Y_1), (X_2, Y_2), ..., (X_n, Y_n)$ are iid random vectors, and that $X_i$ and $Y_i$ are independently distributed as $N(\mu,\sigma^2_1)$ and $N(\mu,\sigma_2^2)$, respectively, with $\mathbf{\theta}=(\mu,\sigma_1^2,\sigma_2^2)\in\R^1\times(0,\infty)\times(0,\infty)$. Let $\overline{X}$ and $S^2_X$ be the sample mean and variance for the $X_i$'s and $\overline Y$ and $S_Y^2$ be the sample mean and sample variance for the $Y_i$'s. Show that $(\overline{X}, \overline{Y}, S^2_X, S^2_Y)$ is minimal sufficient but not boundedly complete. What is a first-order ancillary statistic here?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}% Stat 643 Hw 5 Problem 4
+% (Shao Exercise 2.45) 
+Suppose that $X_1, X_2 , ..., X_n$ are iid $P_\theta$ for $\theta\in \mathbb{R}^1$ , where if $\theta\neq 0$ the distribution
+$P_\theta$ is $N (\theta, 1)$, while $P_0$ is $N (\theta, 2)$. Show that $\overline{X} = \frac{1}{n}\sum_{i=1}^n$ is complete but not sufficient for $\theta$.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+Go through each line of the proof of the Factorization theorem and it's correlary and explain each step in a way that makes it clear that you understand it.
+\end{homeworkProblem}
+
+% \begin{homeworkProblem}% Theory of Point Estimation (1983) Problem 1.4.25
+% If Y is distributed as $\Gamma (a, b)$, determine the distribution of $c\log Y$ and show that for fixed $a$ and varying $b$ it defines an exponential family.
+% \end{homeworkProblem}
+% 
+% \begin{homeworkProblem} %Theory of Point Estimation (1983) Problem 1.5.10
+% Show that the order statistics are minimal sufficient for the location family when $f$ is the density of 
+% \begin{enumerate}[(a)]
+% \item the double exponential distribution $D(0,1)$
+% \item the Cauchy distribution $C(0,1)$
+% \end{enumerate}
+% \end{homeworkProblem}
+\end{document}
+
+Go over the two proofs (factorization theorem & correlary) and go through each step and explain it to us so that we know you understand.

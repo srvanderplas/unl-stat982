@@ -1,0 +1,152 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+\headheight=15pt
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Module 1, Homework 1}
+\newcommand{\hmwkDueDate}{September 6, 2022}
+\newcommand{\hmwkAuthorName}{}
+\newcommand{\hmwkClass}{Stat 982}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\: \hmwkTitle}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next
+page\ldots}\nobreak\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak}%
+
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak\nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]{\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.87\textwidth}#1\end{minipage}}\vspace{.1in}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+  
+\enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}
+   }%
+
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\\small{Due\ on\ \hmwkDueDate}}
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\begin{homeworkProblem} % Stat 643 Hw 4 Problem 2
+Suppose that $X = (X_1, X_2, ..., X_n)$ has independent components, where each $X_i$ is generated as follows. For independent random variables $W_i \sim N(\mu, 1)$ and $Z_i \sim Poisson(\mu)$, $X_i = W_i$ with probability $p$ and $X_i = Z_i$ with probability $1-p$. Suppose that $\mu \in [0,\infty)$. Use the factorization theorem and find low-dimensional sufficient statistics in the cases that:
+
+\begin{enumerate}[(a)]
+\item $p$ is known to be $\frac{1}{2}$
+\item $p\in[0,1]$ is unknown
+\end{enumerate}
+
+Note: In the first case the parameter space is $\Theta=\left\{\frac{1}{2}\right\}\times[0,\infty)$, while in the second case it is $\Theta=[0,1]\times[0,\infty)$.
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 4 Problem 3
+Suppose that $X^\prime$ is exponential with mean $\lambda ^{-1}$ (i.e. it has density $f_\lambda(x)=\lambda \exp(-\lambda x)I[x\geq0]$ with respect to the Lebesgue measure on $\mathbb{R}^1$), but that one only observes $X=X^\prime I[X^\prime\geq1]$. (There is interval censoring below $X^\prime = 1$). 
+
+\begin{enumerate}[(a)]
+\item Consider the measure $\mu$ on $\mathcal X=\{0\}\bigcup[1,\infty)$ consisting of a point mass of 1 at 0 plus the Lebesgue measure on $[1,\infty)$. Give a formula for the R-N derivative of $P_\lambda^X$ with respect to $\mu$ on $\mathcal X$.
+
+\item Suppose that $X_1, ..., X_n$ are iid with the distribution $P_\lambda^X$. Find a two-dimensional sufficient statistic for this problem and argue that it is indeed sufficient.
+
+\item Argue carefully that your statisic from the previous part is minimal sufficient.
+
+\end{enumerate}
+\end{homeworkProblem}
+\begin{homeworkProblem}%Stat 643 Hw 4 Problem 6
+% (Shao Exercise 2.25)
+Let $X$ be a sample from $P\in\mathcal{P}$ where $\mathcal P$ is a family of distributions on $(\mathbb{R}^k, \mathcal{B}^k)$. Show that if $T(X)$ is sufficient for $\mathcal P$ and  $T = \psi(S)$, where $\psi$ is measurable and $S(X)$ is another statistic, then $S(X)$ is sufficient for $\mathcal P$. (Hint: Consider first the special case that $\mathcal P$ is dominated by a $\sigma$-finite measure $\mu$ and then the general case).
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}%Stat 643 Hw 4 Problem 7
+% (Shao Exercise 2.41) 
+Suppose that $X_1 , X_2, ... , X_n$ are iid $P_\theta$ for $\theta = (\theta_1, \theta_2) \in (0, 1) \times \{1, 2\}$, where $P_{(\gamma,1)}$ is the Poisson$(\gamma)$ distribution and $P(\gamma,2)$ is the Bernoulli$(\gamma)$ distribution. Find a two-
+dimensional minimal sufficient statistic for $\theta$ (and argue carefully for minimal sufficiency).
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 4 Problem 9
+% (Shao Exercise 2.57) 
+Suppose that $X_1, ..., X_n$ are iid $N(\gamma, \gamma^2)$ for $\gamma\in\mathbb{R}^1$. Find a minimal sufficient statistic and show that it is not complete.
+\end{homeworkProblem}
+\end{document}
