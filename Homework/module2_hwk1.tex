@@ -1,0 +1,339 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgment}[theorem]{Acknowledgment}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+% \renewnewenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+\headheight=15pt
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Module 2, Homework 1}
+\newcommand{\hmwkDueDate}{October 11, 2022}
+\newcommand{\hmwkAuthorName}{}
+\newcommand{\hmwkClass}{Stat 982}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\: \hmwkTitle}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next
+page\ldots}\nobreak\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak}%
+
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak\nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]{\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.87\textwidth}#1\end{minipage}}\vspace{.1in}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+  
+\enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}
+   }%
+
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\\small{Due\ on\ \hmwkDueDate}}
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+\begin{homeworkProblem} %https://sites.stat.washington.edu/jaw/COURSES/580s/581/LECTNOTES/ch13.ps
+Let $\mathcal F$ be a convex class of absolutely continuous distribution functions which contains all uniform densities. If $X = (X_1, ..., X_n)$ are iid $F \in \mathcal{F}$, then $T(X) = (X_{(1)},...X_{(n)})$ is a complete and sufficient statistic for $F\in\mathcal F$.
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 6 Problem 3
+Suppose that $\Theta=\Theta_1 \times \Theta_2$ and that a decision rule
+$\phi \in {\cal D}^{*}$ is such that for each $\theta_2 \in \Theta_2$,
+$\phi$ is admissible when the parameter space is $\Theta_1 \times 
+\{\theta_2\}$. Show that $\phi$ is then admissible when the parameter 
+space is $\Theta$. (Note: The result holds for any class of decision rules.)
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 6 Problem 4
+Suppose that $w(\theta) > 0$ for any $\theta \in \Theta$.
+Show that $\phi \in {\cal D}^{*}$ is admissible with the loss function 
+$L(\theta, a)$ if and only if  $\phi$ is admissible with the loss function 
+$w(\theta)L(\theta, a)$. (Note: The result holds for any class of decision rules.)
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 6 Problem 5
+
+Consider estimation of $p \in [0, 1]$  with the squared error loss, based on 
+$X \sim$ Binomial\,$(n, p)$, and the two non-randomized decision rules 
+$\delta_1(x) =\frac{x}{n}$ and $\delta_2(x)=
+\frac{1}{2}\left(\frac{x}{n}+\frac{1}{2}\right)$. Let  $\psi$ be a 
+randomized decision rule that chooses $\delta_1$ with probability 
+$\frac{1}{2}$ and  $\delta_2$ with probability $\frac{1}{2}$.
+
+\begin{description}
+
+\item[(a)] Write out expressions for the risk functions of 
+$\delta_1$, $\delta_2$, and $\psi$.
+
+\item[(b)] Find a behavioral rule $\phi$ that is risk equivalent to 
+$\psi$ (that is, $\phi$ and $\psi$ have the same risk function).
+
+\item[(c)] Identify a non-randomized estimator (decision rule) 
+that is strictly better than $\psi$ (or $\phi$).
+\end{description}
+
+See the attached information on behavioral decision rules at the end of this assignment.
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 6 Problem 6
+% (Ferguson)
+Give a counterexample to the following statement: 
+If ${\cal C}_1$ and ${\cal C}_2$ are complete classes of a class of 
+decision rules ${\cal H}$, then ${\cal C}_1 \bigcap {\cal C}_2$ 
+is essentially complete for ${\cal H}$.  (Note: The definitions and 
+theorems in ISU Notes Section~3.3 still hold if you replace ${\cal D}^{*}$ there by any class of decision rules ${\cal H}$.)
+
+Hint: Consider the following decision problem with ${\cal X}=
+\Theta=\{0, 1\}$, ${\cal A}=[0, 1]$, $L(\theta, a)=|\theta-a|$, and 
+$P_0(X=0)=P_1(X=1)=1$. Find complete classes ${\cal C}_1$ 
+and ${\cal C}_2$ of ${\cal H}$ that are disjoint,  where 
+${\cal H} \subset {\cal D}$ is the subset of ${\cal D}$ 
+(the class of non-randomized decision rules) that does not 
+contain the (only) admissible decision rule $\delta(x)=x$ for 
+$x=0, 1$. Think about why we cannot use ${\cal D}$ or 
+${\cal D}^{*}$ in place of ${\cal H}$ here. 
+\end{homeworkProblem}
+
+
+\rhead{Supplemental Material}
+\clearpage   
+\setcounter{theorem}{97}
+We will use the notation $\mathcal{D}=\left\{  \delta\right\}  =\text{the class of (non-randomized)
+decision rules}$
+It is technically useful to extend the notion of decision procedures to include the possibility of randomizing in various ways.
+
+\begin{definition}
+\label{behavioral}If for each $x\in\mathcal{X}$, $\phi_{x}$ is a distribution
+on $\left(  \mathcal{A},\mathcal{E}\right)  $, then $\phi_{x}$ is called a
+\textbf{behavioral decision rule}.
+\end{definition}
+
+The notion of a behavioral decision rule is that one observes $X=x$ and then
+makes a random choice of an element of $\mathcal{A}$ using distribution
+$\phi_{x}$. \ We'll let%
+\[
+\mathcal{D}^{\ast}=\left\{  \phi_{x}\right\}  =\text{the class of behavioral
+decision rules}%
+\]
+It's possible to think of $\mathcal{D}$\ as a subset of $\mathcal{D}^{\ast}%
+$\ by associating with $\delta\in\mathcal{D}$ a behavioral decision rule
+$\phi_{x}^{\delta}$ that is a point mass distribution on $\mathcal{A}%
+$\ concentrated at $\delta\left(  x\right)  $.\ \ The natural definition of
+the risk function of a behavioral decision rule is (abusing notation and using
+``$R$'' here too)%
+\[
+R\left(  \theta,\phi\right)  =\int_{\mathcal{X}}\int_{\mathcal{A}}L\left(
+\theta,a\right)  d\phi_{x}\left(  a\right)  dP_{\theta}\left(  x\right)
+\]
+
+
+A second (less intuitively appealing) notion of randomizing decisions is one
+that might somehow pick an element of $\mathcal{D}$ at random (and then plug
+in $X$). \ Let $\mathcal{F}$\ be a $\sigma$-algebra on\ $\mathcal{D}$\ that
+contains all singleton sets.
+
+\begin{definition}
+\label{randomized}A \textbf{randomized decision function (or rule)} $\psi$ is
+a probability measure on $\left(  \mathcal{D},\mathcal{F}\right)  $.
+\end{definition}
+
+$\delta$ with distribution $\psi$ becomes a random object. \ Let%
+\[
+\mathcal{D}_{\ast}=\left\{  \psi\right\}  =\text{the class of randomized
+decision rules}%
+\]
+It's possible to think of $\mathcal{D}$\ as a subset of $\mathcal{D}_{\ast}%
+$\ by associating with $\delta\in\mathcal{D}$ a randomized decision rule
+$\psi_{\delta}$ placing mass $1$ on $\delta$. \ The natural definition of the
+risk function of a randomzied decision rule is (yet again abusing notation and
+using ``$R$'' here too)%
+\begin{align*}
+R\left(  \theta,\psi\right)   &  =\int_{\mathcal{D}}R\left(  \theta
+,\delta\right)  d\psi\left(  \delta\right)  =\int_{\mathcal{D}}\int_{\mathcal{X}}L\left(  \theta,\delta\left(
+x\right)  \right)  dP_{\theta}\left(  x\right)  d\psi\left(  \delta\right)
+\end{align*}
+(assuming that $R\left(  \theta,\delta\right)  $ is properly measurable).
+
+The behavioral decision rules are most natural, while the randomized decision
+rules are easiest to deal with in some proofs. \ So it is a reasonably
+important question when $\mathcal{D}^{\ast}$ and $\mathcal{D}_{\ast}$ are
+equivalent in the sense of generating the same set of risk functions. \ Some
+properly qualified version of the following is true.
+
+\begin{proposition}
+\label{equivrandomized}If $\mathcal{A}$ is a complete separable metric space
+with $\mathcal{E}$\ the Borel $\sigma$-algebra and ???\ regarding the
+distributions $P_{\theta}$ and ???, then $\mathcal{D}^{\ast}$ and
+$\mathcal{D}_{\ast}$ are equivalent in terms of generating the same set of
+risk functions.
+\end{proposition}
+
+$\mathcal{D}^{\ast}$ and $\mathcal{D}_{\ast}$ are clearly more complicated
+than $\mathcal{D}$. \ A sensible question is when they really provide anything
+$\mathcal{D}$ doesn't provide. \ One kind of negative answer can be given for
+the case of convex loss. \ The following is like 2.5a of Shao, page 151 of
+Schervish, page 40 of Berger, or page 78 of Ferguson.
+
+\begin{lemma}
+\label{convexrandom}Suppose that $\mathcal{A}$\ is a convex subset of $%
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+^{d}$ and $\phi_{x}$\ is a behavioral decision rule. \ Define a non-randomized
+decision rule by%
+\[
+\delta\left(  x\right)  =\int_{\mathcal{A}}ad\phi_{x}\left(  a\right)
+\]
+(In the case that $d>1$, interpret $\delta\left(  x\right)  $ as
+vector-valued, the integral as a vector of integrals over $d$ coordinates of
+$a\in\mathcal{A}$.) \ Then
+
+\begin{enumerate}
+\item if $L\left(  \theta,\cdot\right)  :\mathcal{A}\rightarrow\left[
+0,\infty\right)  $ is convex, then%
+\[
+R\left(  \theta,\delta\right)  \leq R\left(  \theta,\phi\right)
+\]
+and
+
+\item if $L\left(  \theta,\cdot\right)  :\mathcal{A}\rightarrow\left[
+0,\infty\right)  $ is strictly convex, $R\left(  \theta,\phi\right)  <\infty$ and
+
+$P_{\theta}\left(  \left\{  x|\phi_{x}\text{ is non-degenerate}\right\}
+\right)  >0$, then%
+\[
+R\left(  \theta,\delta\right)  <R\left(  \theta,\phi\right)
+\]
+
+\end{enumerate}
+\end{lemma}
+
+\begin{corollary}
+\label{convexrandom2}Suppose that $\mathcal{A}$\ is a convex subset of $%
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+^{d}$, $\phi_{x}$\ is a behavioral decision rule and%
+\[
+\delta\left(  x\right)  =\int_{\mathcal{A}}ad\phi_{x}\left(  a\right)
+\]
+Then
+
+\begin{enumerate}
+\item if $L\left(  \theta,a\right)  $ is convex in $a$ $\forall\theta$,
+$\delta$ is at least as good as $\phi$,
+
+\item if $L\left(  \theta,a\right)  $ is convex in $a$ $\forall\theta$ and for
+some $\theta_{0}$ the function $L\left(  \theta_{0},a\right)  $ is strictly
+convex in $a$, $R\left(  \theta_{0},\phi\right)  <\infty$ and $P_{\theta_{0}%
+}\left(  \left\{  x|\phi_{x}\text{ is non-degenerate}\right\}  \right)  >0$,
+then $\delta$ is better than $\phi$.
+\end{enumerate}
+\end{corollary}
+
+The corollary shows, e.g., that for squared error loss estimation, averaging
+out over non-trivial randomization in a behavioral decision rule will in fact
+improve that estimator.
+
+\end{document}
