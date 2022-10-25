@@ -1,0 +1,412 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgment}[theorem]{Acknowledgment}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+% \renewnewenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+\headheight=15pt
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Module 2, Homework 2}
+\newcommand{\hmwkDueDate}{November 1, 2022}
+\newcommand{\hmwkAuthorName}{}
+\newcommand{\hmwkClass}{Stat 982}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\: \hmwkTitle}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next
+page\ldots}\nobreak\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak}%
+
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak\nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]{\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.87\textwidth}#1\end{minipage}}\vspace{.1in}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+  
+\enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}
+   }%
+
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\\small{Due\ on\ \hmwkDueDate}}
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+\begin{homeworkProblem} % Stat 643 Homework 7 Problem 1
+% (Shao Exercise 2.64) 
+Let $X_1, \ldots, X_n$ be iid binary
+random variables with $P(X_i=1)=\theta \in (0, 1)$ and $P(X_i=0)
+=1-\theta$, for $i=1, \ldots, n$. Consider estimating $\theta$ with 
+the squared error loss. Let $X=(X_1, \ldots, X_n)$. Find the risk
+functions of the following estimators:
+
+\begin{itemize}
+
+\item[(a)] the non-randomized estimators $\overline{X}$
+(the sample mean) and
+\[
+T_0(X)=\left\{
+\begin{array} {ll}  
+0 & \mbox{  if more than half of the $X_i$'s are 0, } \\
+1  & \mbox{  if more than half of the $X_i$'s are 1, } \\
+0.5 & \mbox{  if exactly half of the $X_i$'s are 0; } \\
+\end{array}
+\right.
+\]
+
+\item[(b)]
+the randomized estimators
+\[
+T_1(X)=\left\{ \begin{array}{ll}  
+\overline{X} & \mbox{  with probability $0.5$, } \\
+T_0(X) & \mbox{   with probability $0.5$, } \\
+\end{array}
+\right.
+\]
+and 
+\[
+T_2(X)=\left\{ \begin{array}{ll}  
+\overline{X} & \mbox{  with probability $\overline{X}$, } \\
+0.5 & \mbox{   with probability $1-\overline{X}$.} \\
+\end{array}
+\right.
+\]
+\end{itemize}
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 7 Problem 2
+% (Shao Exercise 2.78) 
+   Find decision rules that are better than
+$T_1$ and $T_2$, respectively, in Problem~1, for $n \ge 3$.
+(Hint:  Think about how a result similar to Lemma~101 can 
+be established for
+a randomized decision rule. However, you do not need to 
+establish any general result for solving this problem.)
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 6 Problem 7
+Consider the two-state decision problem with $\Theta=\{1, 2\}$, 
+$P_1$ the Bernoulli\,($\frac{1}{4}$) distribution, $P_2$ the 
+Bernoulli\,($\frac{1}{2}$) distribution, ${\cal A}=\Theta$, and
+$L(\theta, a)=I[\theta \ne a]$.
+
+\begin{itemize}
+
+\item[(a)] 
+Find ${\cal S}^0$, the set of risk vectors (risk points) for the four 
+non-randomized decision rules. Plot these risk points in the plane,
+and then sketch ${\cal S}$, the set of all randomized risk vectors.
+
+\item[(b)] Identify $A({\cal S})$, the set of all admissible risk 
+vectors. Is there a minimal complete class for this decision problem? 
+If there is one, what is it? (Note: It can be shown by direct, 
+but tedious, calculation that any element of ${\cal D}^{*}$ has 
+a corresponding element of ${\cal D}_{*}$ with the same risk 
+vector, and vice versa. You may use this fact without proof.)
+\end{itemize}
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 7 Problem 2
+% (Problem 7 of Homework~\#6 Continued)
+Consider again the two-state decision problem with $\Theta=\{1, 2\}$, 
+$P_1$ the Bernoulli\,($\frac{1}{4}$) distribution, $P_2$ the 
+Bernoulli\,($\frac{1}{2}$) distribution, ${\cal A}=\Theta$, and
+$L(\theta, a)=I[\theta \ne a]$.
+
+
+\begin{itemize}
+
+\item[(a)] For each $p \in [0, 1]$, identify those risk vectors that 
+are Bayes with respect to the prior $g = (p, 1-p)$. For which 
+priors are there more than one Bayes rule?
+
+\item[(b)] Verify directly that the prescription ``choose an action 
+that minimizes the posterior expected loss'' produces a Bayes rule 
+with respect to the prior $g = (\frac{1}{2}, \frac{1}{2})$.
+\end{itemize}
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 7 Problem 4
+Consider a two-state decision problem where 
+$\Theta={\cal A}=\{0, 1\}$, $P_0$ and $P_1$ have densities 
+$f_0$ and $f_1$, respectively, with respect to a dominating 
+$\sigma$-finite measure $\mu$, and the loss function is 
+$L(\theta, a)$.
+
+\begin{itemize}
+
+\item[(a)] For an arbitrary prior distribution $G$, find a formal 
+Bayes rule with respect to $G$.
+
+\item[(b)] Specialize your result from part~(a) to the case where 
+$L(\theta, a)=I[\theta \ne a]$. What connection does the form
+of these Bayes rules have to the theory of simple-versus-simple 
+hypothesis testing?
+\end{itemize}
+\end{homeworkProblem}
+
+\begin{homeworkProblem} % Stat 643 Hw 7 Problem 6
+Suppose that $X \sim$\,Bernoulli\,$(p)$ and that 
+one wishes to estimate $p \in [0, 1] $ with the loss function
+$L(p, a) = |p-a|$.
+Consider the estimator $\delta$ with $\delta(0)=\frac{1}{4}$
+and $\delta(1)=\frac{3}{4}$.
+
+\begin{itemize}
+
+\item[(a)] Write out the risk function of $\delta$ and show that 
+$R(p, \delta) \le \frac{1}{4}$ for $p \in [0, 1]$.
+
+\item[(b)] Show that there exists a prior distribution placing all 
+its mass on $\{0, \frac{1}{2}, 1\}$ with respect to which
+$\delta$ is Bayes.
+
+\item[(c)] Prove that $\delta$ is minimax in this problem and 
+identify a least favorable prior.
+
+\end{itemize}
+\end{homeworkProblem}
+
+\hrule
+\vspace{1cm}
+\rhead{Supplemental Material}
+\setcounter{theorem}{97}
+We will use the notation $\mathcal{D}=\left\{  \delta\right\}  =\text{the class of (non-randomized)
+decision rules}$
+It is technically useful to extend the notion of decision procedures to include the possibility of randomizing in various ways.
+
+\begin{definition}
+\label{behavioral}If for each $x\in\mathcal{X}$, $\phi_{x}$ is a distribution
+on $\left(  \mathcal{A},\mathcal{E}\right)  $, then $\phi_{x}$ is called a
+\textbf{behavioral decision rule}.
+\end{definition}
+
+The notion of a behavioral decision rule is that one observes $X=x$ and then
+makes a random choice of an element of $\mathcal{A}$ using distribution
+$\phi_{x}$. \ We'll let%
+\[
+\mathcal{D}^{\ast}=\left\{  \phi_{x}\right\}  =\text{the class of behavioral
+decision rules}%
+\]
+It's possible to think of $\mathcal{D}$\ as a subset of $\mathcal{D}^{\ast}%
+$\ by associating with $\delta\in\mathcal{D}$ a behavioral decision rule
+$\phi_{x}^{\delta}$ that is a point mass distribution on $\mathcal{A}%
+$\ concentrated at $\delta\left(  x\right)  $.\ \ The natural definition of
+the risk function of a behavioral decision rule is (abusing notation and using
+``$R$'' here too)%
+\[
+R\left(  \theta,\phi\right)  =\int_{\mathcal{X}}\int_{\mathcal{A}}L\left(
+\theta,a\right)  d\phi_{x}\left(  a\right)  dP_{\theta}\left(  x\right)
+\]
+
+
+A second (less intuitively appealing) notion of randomizing decisions is one
+that might somehow pick an element of $\mathcal{D}$ at random (and then plug
+in $X$). \ Let $\mathcal{F}$\ be a $\sigma$-algebra on\ $\mathcal{D}$\ that
+contains all singleton sets.
+
+\begin{definition}
+\label{randomized}A \textbf{randomized decision function (or rule)} $\psi$ is
+a probability measure on $\left(  \mathcal{D},\mathcal{F}\right)  $.
+\end{definition}
+
+$\delta$ with distribution $\psi$ becomes a random object. \ Let%
+\[
+\mathcal{D}_{\ast}=\left\{  \psi\right\}  =\text{the class of randomized
+decision rules}%
+\]
+It's possible to think of $\mathcal{D}$\ as a subset of $\mathcal{D}_{\ast}%
+$\ by associating with $\delta\in\mathcal{D}$ a randomized decision rule
+$\psi_{\delta}$ placing mass $1$ on $\delta$. \ The natural definition of the
+risk function of a randomzied decision rule is (yet again abusing notation and
+using ``$R$'' here too)%
+\begin{align*}
+R\left(  \theta,\psi\right)   &  =\int_{\mathcal{D}}R\left(  \theta
+,\delta\right)  d\psi\left(  \delta\right)  =\int_{\mathcal{D}}\int_{\mathcal{X}}L\left(  \theta,\delta\left(
+x\right)  \right)  dP_{\theta}\left(  x\right)  d\psi\left(  \delta\right)
+\end{align*}
+(assuming that $R\left(  \theta,\delta\right)  $ is properly measurable).
+
+The behavioral decision rules are most natural, while the randomized decision
+rules are easiest to deal with in some proofs. \ So it is a reasonably
+important question when $\mathcal{D}^{\ast}$ and $\mathcal{D}_{\ast}$ are
+equivalent in the sense of generating the same set of risk functions. \ Some
+properly qualified version of the following is true.
+
+\begin{proposition}
+\label{equivrandomized}If $\mathcal{A}$ is a complete separable metric space
+with $\mathcal{E}$\ the Borel $\sigma$-algebra and ???\ regarding the
+distributions $P_{\theta}$ and ???, then $\mathcal{D}^{\ast}$ and
+$\mathcal{D}_{\ast}$ are equivalent in terms of generating the same set of
+risk functions.
+\end{proposition}
+
+$\mathcal{D}^{\ast}$ and $\mathcal{D}_{\ast}$ are clearly more complicated
+than $\mathcal{D}$. \ A sensible question is when they really provide anything
+$\mathcal{D}$ doesn't provide. \ One kind of negative answer can be given for
+the case of convex loss. \ The following is like 2.5a of Shao, page 151 of
+Schervish, page 40 of Berger, or page 78 of Ferguson.
+
+\begin{lemma}
+\label{convexrandom}Suppose that $\mathcal{A}$\ is a convex subset of $%
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+^{d}$ and $\phi_{x}$\ is a behavioral decision rule. \ Define a non-randomized
+decision rule by%
+\[
+\delta\left(  x\right)  =\int_{\mathcal{A}}ad\phi_{x}\left(  a\right)
+\]
+(In the case that $d>1$, interpret $\delta\left(  x\right)  $ as
+vector-valued, the integral as a vector of integrals over $d$ coordinates of
+$a\in\mathcal{A}$.) \ Then
+
+\begin{enumerate}
+\item if $L\left(  \theta,\cdot\right)  :\mathcal{A}\rightarrow\left[
+0,\infty\right)  $ is convex, then%
+\[
+R\left(  \theta,\delta\right)  \leq R\left(  \theta,\phi\right)
+\]
+and
+
+\item if $L\left(  \theta,\cdot\right)  :\mathcal{A}\rightarrow\left[
+0,\infty\right)  $ is strictly convex, $R\left(  \theta,\phi\right)  <\infty$ and
+
+$P_{\theta}\left(  \left\{  x|\phi_{x}\text{ is non-degenerate}\right\}
+\right)  >0$, then%
+\[
+R\left(  \theta,\delta\right)  <R\left(  \theta,\phi\right)
+\]
+
+\end{enumerate}
+\end{lemma}
+
+\begin{corollary}
+\label{convexrandom2}Suppose that $\mathcal{A}$\ is a convex subset of $%
+%TCIMACRO{\U{211d} }%
+%BeginExpansion
+\mathbb{R}
+%EndExpansion
+^{d}$, $\phi_{x}$\ is a behavioral decision rule and%
+\[
+\delta\left(  x\right)  =\int_{\mathcal{A}}ad\phi_{x}\left(  a\right)
+\]
+Then
+
+\begin{enumerate}
+\item if $L\left(  \theta,a\right)  $ is convex in $a$ $\forall\theta$,
+$\delta$ is at least as good as $\phi$,
+
+\item if $L\left(  \theta,a\right)  $ is convex in $a$ $\forall\theta$ and for
+some $\theta_{0}$ the function $L\left(  \theta_{0},a\right)  $ is strictly
+convex in $a$, $R\left(  \theta_{0},\phi\right)  <\infty$ and $P_{\theta_{0}%
+}\left(  \left\{  x|\phi_{x}\text{ is non-degenerate}\right\}  \right)  >0$,
+then $\delta$ is better than $\phi$.
+\end{enumerate}
+\end{corollary}
+
+The corollary shows, e.g., that for squared error loss estimation, averaging
+out over non-trivial randomization in a behavioral decision rule will in fact
+improve that estimator.
+
+\end{document}
