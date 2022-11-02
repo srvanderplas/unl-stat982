@@ -1,0 +1,144 @@
+\documentclass[letterpaper,11pt]{article}
+% \usepackage[utf8x]{inputenc}
+\usepackage{color}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{enumerate}
+\usepackage{fullpage}
+\usepackage{csquotes}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage[colorlinks]{hyperref}
+% \usepackage{chngcntr}
+\usepackage{bm}
+\usepackage{multicol, multirow}
+\usepackage{paralist}
+\usepackage{textcomp}
+
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\re}{\text{Re }}
+\newcommand{\im}{\text{Im }}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\convprob}{\overset{p}\rightarrow}
+\newcommand{\convdist}{\overset{d}\rightarrow}
+\newcommand{\conv}{\rightarrow}
+\newcommand{\var}{\text{ Var }}
+\newcommand{\sig}{$\sigma$}
+\newcommand{\as}{\text{ a.s. }}
+\renewcommand{\ae}{\text{ a.e. }}
+\newcommand{\F}{\mathcal F}
+\newcommand{\G}{\mathcal G}
+\newcommand{\T}{\mathcal T}
+\newcommand{\B}{\mathcal B}
+\newcommand{\psp}{$(\Omega, \F, \mathcal P)$}
+\newcommand{\X}{\mathcal X}
+\renewcommand{\P}{\mathcal P}
+\renewcommand{\vec}[1]{\underline{#1}}
+\newcommand{\A}{\mathcal A}
+\newcommand{\E}{\mathcal E}
+\newcommand{\D}{\mathcal D}
+\newcommand{\cc}{\mathcal C}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcounter{thm}
+%\counterwithin{thm}{subsection}	% add the section number to the equation label
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{theorem}[thm]{Theorem}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem*{note}{Note}
+\newtheorem{claim}[thm]{Claim}
+
+\newcommand{\mybox}[1]
+  {\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.98\linewidth}#1\end{minipage}}\vspace{.1in}}%
+\newcommand{\pf}[1]
+  {\vspace{.05in}\noindent\fbox{\begin{minipage}[c]{.92\linewidth}#1\end{minipage}}\vspace{.05in}}
+
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+
+\begin{document}
+
+\begin{defn}{Maximum Likelihood Estimator (MLE)}
+For $X_i \overset{iid}{\sim} f(x|\theta)$, the MLE is $$\hat\theta = \argmax_\theta f(x^n|\theta) \text{\hspace{1cm}for}\;\; \theta\in\Omega\subset \R^k$$ 
+\end{defn}
+
+\section{Consistency of the MLE}
+This is a summary of \citet{waldNoteConsistencyMaximum1949} which shows that $\hat\theta$ is consistent. It consists of a set of assumptions, some introductory lemmas, and the proof of the main theorem.
+
+\paragraph{Consider the following 8 assumptions}
+\begin{enumerate}
+\item The distribution function $F_\theta(x)$ is either discrete for all $\theta$ or absolutely continuous for all $\theta$.
+\item Let \vspace{-1em}
+\begin{align*}
+\displaystyle f(x|\theta, p) &= \sup_{|\theta-\theta^\prime|\leq p} f(x|\theta^\prime)\\
+\displaystyle \phi(x|r) &= \sup_{|\theta| > r|} f(x|\theta)\\
+\displaystyle f^\ast(x|\theta,p) &= \max(1, f(x|\theta,p))\\
+\displaystyle \phi^\ast(x|\theta,p) &= \max(1, \phi(x|r))
+\end{align*}
+
+Assume that for sufficiently small $p$ and sufficiently large $r$ the expected values 
+$$\int_{-\infty}^\infty \ln f^\ast(x|\theta,p) \;dF_{\theta_0}(x) \;\;\;\;\;\text{and}\;\;\;\;\; 
+  \int_{-\infty}^\infty \ln \phi^\ast(x|r) \;dF_{\theta_0}(x)$$ 
+are finite, $\theta_0 = \theta_{\text{true}}$. 
+
+\item If $\displaystyle \lim_{i\rightarrow\infty}\theta_i = \theta$ then $\displaystyle \lim_{i\rightarrow\infty} f(x|\theta_i) = f(x|\theta)$ for all x, except a set which may depend on $\theta$ (but not $\langle\theta_i\rangle$) and has $P_{\theta_0}$ probability 0.
+\item If $\theta_0 \neq \theta_1$, there exists $x$ such that $F_{\theta_0}(x) \neq F_{\theta_1}(x)$
+\item If $\displaystyle \lim_{i\rightarrow\infty}|\theta_i| = \infty$ then $\displaystyle \lim_{i\rightarrow\infty} f(x|\theta_i) = 0$ except for a set of $P_{\theta_0}$ with probability 0 (and independent of $\langle\theta_i\rangle$)
+\item $\int_{-\infty}^\infty |\log f(x|\theta_0)| dF_{\theta_0}(x) < \infty$
+\item $\Omega$ is a closed subset of $\R^k$
+\item $f(x|\theta,p)$ is measurable in $x$ for any $\theta, p$ (not necessary for discrete $\theta$)
+\end{enumerate}
+
+\mybox{
+\paragraph{Summary}
+Wald's hypotheses can be succinctly stated as:
+\begin{enumerate}
+\item $\forall\; \theta \;\; \exists \; p = p(\theta)$ $\displaystyle E_\theta \sup_{|\psi - \theta| > p} \ln \frac{f(X|\psi)}{f(X|\theta)} < 0$
+\item $\forall \theta, \delta > 0$ small enough, $\displaystyle E_\theta\ln\frac{f(X|\theta)}{\sup_{(\theta^\prime - \theta)<\delta} f(X|\theta)} < \infty$
+\item $p(x|\theta)\rightarrow 0$ as $||\theta|| \rightarrow \infty$
+\end{enumerate}
+}
+
+\begin{lemma}
+For any $\theta\neq\theta_0$, we have $E\log f(X|\theta)<E\log f(X|\theta_0)$, where $X$ is a chance variable with the distribution $F(X,\theta_0)$
+
+\pf{\underline{Proof:}\\
+Assumption 2 means that the expected values exist. \\
+Assumption 6 means $E|\log f(X,\theta_0)<\infty$. \\
+If $E\log f(X,\theta)=-\infty$, the lemma obviously holds.\\
+If $E\log f(X,\theta)>-\infty$, then $E|\log f(X,\theta)|<\infty$.\\
+Let $u = \log f(X,\theta)-\log f(X,\theta_0)$. 
+$E|u| < \infty$. 
+We know that for any RV $u$ that is non-constant with probability 1 with finite expectation, $E u < \log E e^u$.\\ Since $E e^u \leq 1$, $Eu < \log E e^u \leq 0$ and thus $E u < 0$.}
+\end{lemma}
+
+\begin{lemma}
+$\displaystyle \lim_{p=0} E \log f(X, \theta, p) = E \log f(X, \theta)$
+
+\pf{\underline{Proof:}\\
+Let $\displaystyle f^\ast(x,\theta,p) = \left\{\begin{array}{ll}f(x,\theta,p) & f(x,\theta,p)\geq 1\\ 1 &\text{otherwise}\end{array}\right. \text{ and } f^{\ast}(x,\theta) = \left\{\begin{array}{ll}f(x,\theta) & f(x,\theta)\geq 1\\1 &\text{otherwise}\end{array}\right.$\\
+\hphantom{Let }$\displaystyle f^{\ast\ast}(x,\theta,p) = \left\{\begin{array}{ll}f(x,\theta,p) & f(x,\theta,p)\leq 1\\ 1 &\text{otherwise}\end{array}\right. \text{ and } f^{\ast\ast}(x,\theta) = \left\{\begin{array}{ll}f(x,\theta) & f(x,\theta)\leq 1\\1 &\text{otherwise}\end{array}\right.$\\
+\begin{align*}
+\lim_{p\rightarrow 0}\log f^\ast(x,\theta,p) &= \log f^\ast(x,\theta) \ae &\text{Assumption 3}\\
+\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) &= E \log f^\ast(X,\theta) &\text{ since }\log f^\ast(x,\theta,p) \text{ is incr in }p + \text{Assumption 2}\\
+|\log f^{\ast\ast}(x,\theta,p)| &\leq |\log f^{\ast\ast}(x,\theta)|\\
+\lim_{p\rightarrow 0} \log f^{\ast\ast}(x,\theta,p) &= \log f^{\ast\ast}(x,\theta) & \text{for }x\ae\\
+\lim_{p\rightarrow 0} E\log f^{\ast\ast}(X,\theta,p) &= E\log f^{\ast\ast}(X,\theta) & \text{ follows from the two previous lines}.
+\end{align*}
+Since $\displaystyle\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) = E \log f^\ast(X,\theta)$\\ and $\displaystyle \lim_{p\rightarrow 0} E\log f^{\ast\ast}(X,\theta,p) = E\log f^{\ast\ast}(X,\theta)$, we are done.
+}
+\end{lemma}
+
+\begin{lemma}$$\lim_{r\rightarrow\infty} E\log\psi(X|r) = -\infty$$
+\pf{\underline{Proof:}\\Assumption 5 implies $\displaystyle \lim_{r\rightarrow\infty} \log \psi(X|r) = -\infty \ae$ \\
+Assumption 2 says $\displaystyle E\log\psi^\ast(X,r)<\infty$.\\
+$\log \psi(x,r)-\log \psi^\ast(x,r)$ and $\log \psi^\ast(x,r)$ are decreasing functions of $r$, so the lemma follows by the monotone convergence theorem.}
+\end{lemma}
+\bibliography{refs}
+\end{document}
