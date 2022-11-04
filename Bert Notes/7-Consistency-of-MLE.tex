@@ -50,7 +50,8 @@
 \newtheorem{prop}[thm]{Proposition}
 \newtheorem{cor}[thm]{Corollary}
 \theoremstyle{definition}
-\newtheorem{defn}[thm]{Definition}
+\newcounter{defn}
+\newtheorem{defn}[defn]{Definition}
 \newtheorem*{note}{Note}
 \newtheorem{claim}[thm]{Claim}
 
@@ -65,7 +66,7 @@
 \begin{document}
 
 \begin{defn}{Maximum Likelihood Estimator (MLE)}
-For $X_i \overset{iid}{\sim} f(x|\theta)$, the MLE is $$\hat\theta = \argmax_\theta f(x^n|\theta) \text{\hspace{1cm}for}\;\; \theta\in\Omega\subset \R^k$$ 
+For $X_i \overset{iid}{\sim} f(x|\theta)$, the MLE is $$\hat\theta = \argmax_\theta f(x^n|\theta) \text{\hspace{1cm}for}\;\; \theta\in\Omega\subset \R^k$$
 \end{defn}
 
 \section{Consistency of the MLE}
@@ -82,10 +83,10 @@ This is a summary of \citet{waldNoteConsistencyMaximum1949} which shows that $\h
 \displaystyle \phi^\ast(x|\theta,p) &= \max(1, \phi(x|r))
 \end{align*}
 
-Assume that for sufficiently small $p$ and sufficiently large $r$ the expected values 
-$$\int_{-\infty}^\infty \ln f^\ast(x|\theta,p) \;dF_{\theta_0}(x) \;\;\;\;\;\text{and}\;\;\;\;\; 
-  \int_{-\infty}^\infty \ln \phi^\ast(x|r) \;dF_{\theta_0}(x)$$ 
-are finite, $\theta_0 = \theta_{\text{true}}$. 
+Assume that for sufficiently small $p$ and sufficiently large $r$ the expected values
+$$\int_{-\infty}^\infty \ln f^\ast(x|\theta,p) \;dF_{\theta_0}(x) \;\;\;\;\;\text{and}\;\;\;\;\;
+  \int_{-\infty}^\infty \ln \phi^\ast(x|r) \;dF_{\theta_0}(x)$$
+are finite, $\theta_0 = \theta_{\text{true}}$.
 
 \item If $\displaystyle \lim_{i\rightarrow\infty}\theta_i = \theta$ then $\displaystyle \lim_{i\rightarrow\infty} f(x|\theta_i) = f(x|\theta)$ for all x, except a set which may depend on $\theta$ (but not $\langle\theta_i\rangle$) and has $P_{\theta_0}$ probability 0.
 \item If $\theta_0 \neq \theta_1$, there exists $x$ such that $F_{\theta_0}(x) \neq F_{\theta_1}(x)$
@@ -113,8 +114,8 @@ Assumption 2 means that the expected values exist. \\
 Assumption 6 means $E|\log f(X,\theta_0)<\infty$. \\
 If $E\log f(X,\theta)=-\infty$, the lemma obviously holds.\\
 If $E\log f(X,\theta)>-\infty$, then $E|\log f(X,\theta)|<\infty$.\\
-Let $u = \log f(X,\theta)-\log f(X,\theta_0)$. 
-$E|u| < \infty$. 
+Let $u = \log f(X,\theta)-\log f(X,\theta_0)$.
+$E|u| < \infty$.
 We know that for any RV $u$ that is non-constant with probability 1 with finite expectation, $E u < \log E e^u$.\\ Since $E e^u \leq 1$, $Eu < \log E e^u \leq 0$ and thus $E u < 0$.}
 \end{lemma}
 
@@ -140,5 +141,19 @@ Since $\displaystyle\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) = E \log f^\a
 Assumption 2 says $\displaystyle E\log\psi^\ast(X,r)<\infty$.\\
 $\log \psi(x,r)-\log \psi^\ast(x,r)$ and $\log \psi^\ast(x,r)$ are decreasing functions of $r$, so the lemma follows by the monotone convergence theorem.}
 \end{lemma}
+
+The three lemmas posed above are necessary in order to prove the following theorems.
+
+\begin{theorem}
+Let $\omega$ be any closed subset of the parameter space $\Omega$ which does not contain the true parameter point $\theta_0$. Then $$\lim_{n\rightarrow\infty} \frac{\sup_{\theta\in\omega} f(X_1,\theta)f(X_2,\theta)\cdots f(X_n,\theta)}{f(X_1,\theta_0)f(X_2,\theta_0)\cdots f(X_n,\theta_0)} = 0 \text{ with probability } 1$$
+\end{theorem}
+
+\begin{theorem}
+Let $\overline{\theta}_n(x_1, ..., x_n)$ be a function of the observations $x_1, ..., x_n$ such that $$\frac{f(x_1, \overline\theta_n) \cdots f(x_n, \overline\theta_n)}{f(x_1, \theta_0) \cdots f(x_n, \theta_0) \geq c > 0$$ for all $n$ and $x_1, ..., x_n$. Then $$\lim_{n\rightarrow\infty}\overline\theta_n = \theta_0 \text{ with probability }1.$$
+\end{theorem}
+
+
+
+
 \bibliography{refs}
 \end{document}
