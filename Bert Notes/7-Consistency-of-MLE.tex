@@ -12,7 +12,22 @@
 \usepackage{multicol, multirow}
 \usepackage{paralist}
 \usepackage{textcomp}
+\usepackage{cleveref}
 
+\usepackage{enumitem}
+\newcounter{Ax}
+\newcounter{Bx}
+\newcounter{Cx}
+
+\newcommand{\itemA}{%
+    \addtocounter{Ax}{1}
+    \item[A\theAx.]}
+\newcommand{\itemB}{%
+    \addtocounter{Bx}{1}
+    \item[B\theBx.]}
+\newcommand{\itemC}{%
+    \addtocounter{Cx}{1}
+    \item[C\theCx.]}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
@@ -39,6 +54,7 @@
 \newcommand{\E}{\mathcal E}
 \newcommand{\D}{\mathcal D}
 \newcommand{\cc}{\mathcal C}
+\newcommand{\FI}{\mathcal{I}}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -50,27 +66,30 @@
 \newtheorem{prop}[thm]{Proposition}
 \newtheorem{cor}[thm]{Corollary}
 \theoremstyle{definition}
-\newcounter{defn}
-\newtheorem{defn}[defn]{Definition}
+\newcounter{def}
+\newtheorem*{defn}{Definition}
 \newtheorem*{note}{Note}
 \newtheorem{claim}[thm]{Claim}
 
 \newcommand{\mybox}[1]
   {\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.98\linewidth}#1\end{minipage}}\vspace{.1in}}%
 \newcommand{\pf}[1]
-  {\vspace{.05in}\noindent\fbox{\begin{minipage}[c]{.92\linewidth}#1\end{minipage}}\vspace{.05in}}
+  {\vspace{.05in}\noindent\fbox{\begin{minipage}[c]{.98\linewidth}#1\end{minipage}}\vspace{.05in}}
 
 \usepackage{natbib}
 \bibliographystyle{abbrvnat}
 
+\setlength\parindent{0pt} % don't indent
+
 \begin{document}
 
-\begin{defn}{Maximum Likelihood Estimator (MLE)}
-For $X_i \overset{iid}{\sim} f(x|\theta)$, the MLE is $$\hat\theta = \argmax_\theta f(x^n|\theta) \text{\hspace{1cm}for}\;\; \theta\in\Omega\subset \R^k$$
+\begin{defn}{Maximum Likelihood Estimator (MLE)}\\
+For $X_i \overset{iid}{\sim} f(x|\theta)$, the MLE is 
+$\displaystyle\hat\theta = \argmax_\theta f(x^n|\theta) \text{\hspace{1cm}for}\;\; \theta\in\Omega\subset \R^k$
 \end{defn}
 
 \section{Consistency of the MLE}
-This is a summary of \citet{waldNoteConsistencyMaximum1949} which shows that $\hat\theta$ is consistent. It consists of a set of assumptions, some introductory lemmas, and the proof of the main theorem.
+This is a summary/direct restatement of \citet{waldNoteConsistencyMaximum1949} which shows that $\hat\theta$ is consistent. It consists of a set of assumptions, some introductory lemmas, and the proof of the main theorem.
 
 \paragraph{Consider the following 8 assumptions}
 \begin{enumerate}
@@ -100,13 +119,15 @@ are finite, $\theta_0 = \theta_{\text{true}}$.
 \paragraph{Summary}
 Wald's hypotheses can be succinctly stated as:
 \begin{enumerate}
-\item $\forall\; \theta \;\; \exists \; p = p(\theta)$ $\displaystyle E_\theta \sup_{|\psi - \theta| > p} \ln \frac{f(X|\psi)}{f(X|\theta)} < 0$
+\item For all $\theta$ there exists $p = p(\theta)$ $\displaystyle E_\theta \sup_{|\phi - \theta| > p} \ln \frac{f(X|\phi)}{f(X|\theta)} < 0$  \textbf{(Wald's integrability condition)}
 \item $\forall \theta, \delta > 0$ small enough, $\displaystyle E_\theta\ln\frac{f(X|\theta)}{\sup_{(\theta^\prime - \theta)<\delta} f(X|\theta)} < \infty$
 \item $p(x|\theta)\rightarrow 0$ as $||\theta|| \rightarrow \infty$
 \end{enumerate}
 }
 
-\begin{lemma}
+A more thorough explanation of these conditions and the theorem itself is available in \citet{geyerWaldConsistencyTheorem}.
+
+\begin{lemma}\label{lem-1-wald}
 For any $\theta\neq\theta_0$, we have $E\log f(X|\theta)<E\log f(X|\theta_0)$, where $X$ is a chance variable with the distribution $F(X,\theta_0)$
 
 \pf{\underline{Proof:}\\
@@ -119,41 +140,235 @@ $E|u| < \infty$.
 We know that for any RV $u$ that is non-constant with probability 1 with finite expectation, $E u < \log E e^u$.\\ Since $E e^u \leq 1$, $Eu < \log E e^u \leq 0$ and thus $E u < 0$.}
 \end{lemma}
 
-\begin{lemma}
+\begin{defn}{Kullback-Leibler Information}
+\\Note that 
+\begin{align*}
+E\log f(X|\theta) - E \log f(X|\theta_0) &= E \log \frac{f(X|\theta)}{f(X|\theta_0)}\\
+\int\log\frac{f_\theta(x)}{f_{\theta_0}(x)}P_{\theta_0}(dx) = \lambda(\theta)
+\end{align*}
+By Jensen's Inequality, $\lambda(\theta)\leq0$ for all $\theta$ and $\lambda(\theta)=\lambda(\theta_0)$ iff $f_\theta(x)=f_{\theta_0}(x)$ for almost all $x$ $(P_{\theta_0})$. So $\lambda$ is non-positive on $\Theta$ and has a maximum at $\theta_0$, where $\lambda(\theta_0) = 0$. 
+\end{defn}
+
+\begin{lemma}\label{lem-2-wald}
 $\displaystyle \lim_{p=0} E \log f(X, \theta, p) = E \log f(X, \theta)$
 
 \pf{\underline{Proof:}\\
 Let $\displaystyle f^\ast(x,\theta,p) = \left\{\begin{array}{ll}f(x,\theta,p) & f(x,\theta,p)\geq 1\\ 1 &\text{otherwise}\end{array}\right. \text{ and } f^{\ast}(x,\theta) = \left\{\begin{array}{ll}f(x,\theta) & f(x,\theta)\geq 1\\1 &\text{otherwise}\end{array}\right.$\\
 \hphantom{Let }$\displaystyle f^{\ast\ast}(x,\theta,p) = \left\{\begin{array}{ll}f(x,\theta,p) & f(x,\theta,p)\leq 1\\ 1 &\text{otherwise}\end{array}\right. \text{ and } f^{\ast\ast}(x,\theta) = \left\{\begin{array}{ll}f(x,\theta) & f(x,\theta)\leq 1\\1 &\text{otherwise}\end{array}\right.$\\
 \begin{align*}
-\lim_{p\rightarrow 0}\log f^\ast(x,\theta,p) &= \log f^\ast(x,\theta) \ae &\text{Assumption 3}\\
-\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) &= E \log f^\ast(X,\theta) &\text{ since }\log f^\ast(x,\theta,p) \text{ is incr in }p + \text{Assumption 2}\\
+\lim_{p\rightarrow 0}\log f^\ast(x,\theta,p) &= \log f^\ast(x,\theta) \ae \text{ (by Assumption 3)}\\
+\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) &= E \log f^\ast(X,\theta) \text{ (since }\log f^\ast(x,\theta,p) \text{ is incr in }p + \text{Assumption 2)}\\
 |\log f^{\ast\ast}(x,\theta,p)| &\leq |\log f^{\ast\ast}(x,\theta)|\\
-\lim_{p\rightarrow 0} \log f^{\ast\ast}(x,\theta,p) &= \log f^{\ast\ast}(x,\theta) & \text{for }x\ae\\
-\lim_{p\rightarrow 0} E\log f^{\ast\ast}(X,\theta,p) &= E\log f^{\ast\ast}(X,\theta) & \text{ follows from the two previous lines}.
+\lim_{p\rightarrow 0} \log f^{\ast\ast}(x,\theta,p) &= \log f^{\ast\ast}(x,\theta)  \text{ for }x\ae\\
+\lim_{p\rightarrow 0} E\log f^{\ast\ast}(X,\theta,p) &= E\log f^{\ast\ast}(X,\theta) \text{ (follows from the two previous lines)}.
 \end{align*}
-Since $\displaystyle\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) = E \log f^\ast(X,\theta)$\\ and $\displaystyle \lim_{p\rightarrow 0} E\log f^{\ast\ast}(X,\theta,p) = E\log f^{\ast\ast}(X,\theta)$, we are done.
+\begin{align*}\text{Since }\displaystyle\lim_{p\rightarrow 0}E \log f^\ast(X,\theta,p) &= E \log f^\ast(X,\theta)\text{ and }\\\displaystyle \lim_{p\rightarrow 0} E\log f^{\ast\ast}(X,\theta,p) &= E\log f^{\ast\ast}(X,\theta), \text{ we are done.}
+\end{align*}
 }
 \end{lemma}
 
-\begin{lemma}$$\lim_{r\rightarrow\infty} E\log\psi(X|r) = -\infty$$
-\pf{\underline{Proof:}\\Assumption 5 implies $\displaystyle \lim_{r\rightarrow\infty} \log \psi(X|r) = -\infty \ae$ \\
-Assumption 2 says $\displaystyle E\log\psi^\ast(X,r)<\infty$.\\
-$\log \psi(x,r)-\log \psi^\ast(x,r)$ and $\log \psi^\ast(x,r)$ are decreasing functions of $r$, so the lemma follows by the monotone convergence theorem.}
+\begin{lemma}\label{lem-3-wald}
+$$\lim_{r\rightarrow\infty} E\log\phi(X|r) = -\infty$$
+\pf{\underline{Proof:}\\Assumption 5 implies $\displaystyle \lim_{r\rightarrow\infty} \log \phi(X|r) = -\infty \ae$ \\
+Assumption 2 says $\displaystyle E\log\phi^\ast(X,r)<\infty$.\\
+$\log \phi(x,r)-\log \phi^\ast(x,r)$ and $\log \phi^\ast(x,r)$ are decreasing functions of $r$, so the lemma follows by the monotone convergence theorem.}
 \end{lemma}
 
 The three lemmas posed above are necessary in order to prove the following theorems.
 
-\begin{theorem}
-Let $\omega$ be any closed subset of the parameter space $\Omega$ which does not contain the true parameter point $\theta_0$. Then $$\lim_{n\rightarrow\infty} \frac{\sup_{\theta\in\omega} f(X_1,\theta)f(X_2,\theta)\cdots f(X_n,\theta)}{f(X_1,\theta_0)f(X_2,\theta_0)\cdots f(X_n,\theta_0)} = 0 \text{ with probability } 1$$
+\begin{theorem}\label{wald-thm-1}
+Let $\omega$ be any closed subset of the parameter space $\Omega$ which does not contain the true parameter point $\theta_0$. Then \begin{align*}\displaystyle \lim_{n\rightarrow\infty} \frac{\sup_{\theta\in\omega} f(X_1,\theta)f(X_2,\theta)\cdots f(X_n,\theta)}{f(X_1,\theta_0)f(X_2,\theta_0)\cdots f(X_n,\theta_0)} &= 0 \text{ with probability } 1\\
+\text{ (more compact notation) }\lim_{n\rightarrow\infty} \frac{\sup_{\theta\in\omega} f(X^n|\theta)}{f(X^n|\theta_0)} &= 0 \text{ with probability } 1\end{align*}
+\pf{\underline{Proof:}\\
+Let $r_0$ be a positive number chosen such that
+\begin{align}\label{wald-ineq1}
+E\log\phi(X,r_0) < E \log f(X,\theta_0)
+\end{align}
+The existence of such a positive number follows from \Cref{lem-3-wald}. Let $\omega_1$ be the subset of $\omega$ consisting of all points $\theta$ of $\omega$ for which $|\theta|\leq r_0$. With each point $\theta$ in $\omega_1$ we associate a positive value $p_0$ such that
+\begin{align}\label{wald-ineq2}
+E\log f(X,\theta,p_\theta) < E\log f(X,\theta_0)
+\end{align}
+The existence of such a $p_\theta$ follows from \Cref{lem-1-wald} and \Cref{lem-2-wald}.
+Since the set $\omega_1$ is closed and bounded (and thus compact), there exist a finite number of points $\theta_1, \cdots, \theta_h \in \omega_1$ such that $S(\theta_1,p_{\theta_1}) + \cdots + S(\theta_h,p_{\theta_h})$ contains $\omega_1$ as a subset. Here $S(\theta,p)$ denotes the spehere with center $\theta$ and radius $p$. Clearly,
+\begin{align}\label{wald-ineq3}
+0\leq\sup_{\theta\in\omega} f(x_1,\theta)\cdots f(x_n,\theta)\leq&\sum_{i=1}^h f(x_1,\theta_i,p_{\theta_i})\cdots f(x_n,\theta_i,p_{\theta_i}) + \phi(x_1,r_0) \cdots \phi(x_n,r_0).\\
+0\leq \sup_{\theta\in\omega} f(X^n|\theta) \leq &\sum_{i=1}^h f(X^n|\theta_i,p_{\theta_i}) + \phi(X^n|r_0)\text{ (more compact notation) }\nonumber
+\end{align}
+The theorem is proved if we can show that
+\begin{align}
+\lim_{n\rightarrow\infty} \frac{f(X_1,\theta_i,p_{\theta_i})\cdots f(X_n,\theta_i,p_{\theta_i})}{f(X_1,\theta_0)\cdots f(X_n,\theta_0)} &= 0 \;\;\;\text{ with probability 1}, (i=1, ..., h)\label{wald-proof-eqa}\\
+\text{and}\nonumber\\
+\lim_{n\rightarrow\infty} \frac{\phi(X_1,r_0)\cdots\phi(X_n,r_0)}{f(X_1,\theta_0)\cdots f(X_n,\theta_0)} &= 0 \;\;\;\text{ with probability 1}.\label{wald-proof-eqb}
+\end{align}
+}\\
+\pf{(cont'd)\\
+That is, we divide the whole expression in \Cref{wald-ineq3} by $f(X^n|\theta_0)$ and consider each term of the sum separately.\\
+Using \Cref{wald-ineq1}, \Cref{wald-ineq2}, and the strong LLN, we can rewrite \Cref{wald-proof-eqa} and \Cref{wald-proof-eqb} as
+\begin{align*}
+\lim_{n\rightarrow\infty} 
+\sum_{\alpha = 1}^n \left[\log f(X_\alpha,\theta_i,p_{\theta_i}) - \log f(X_\alpha,\theta_0)\right]&=-\infty  \;\;\;\text{ with probability 1}, (i=1, ..., h)\\
+\text{and}\nonumber\\
+\lim_{n\rightarrow\infty} \left[\log\phi(X_\alpha,r_\theta) - \log f(X_\alpha,\theta_0)\right] &= -\infty \;\;\;\text{ with probability 1}.
+\end{align*}
+}
 \end{theorem}
 
-\begin{theorem}
-Let $\overline{\theta}_n(x_1, ..., x_n)$ be a function of the observations $x_1, ..., x_n$ such that $$\frac{f(x_1, \overline\theta_n) \cdots f(x_n, \overline\theta_n)}{f(x_1, \theta_0) \cdots f(x_n, \theta_0) \geq c > 0$$ for all $n$ and $x_1, ..., x_n$. Then $$\lim_{n\rightarrow\infty}\overline\theta_n = \theta_0 \text{ with probability }1.$$
+This essentially shows that the conditions imply that the log likelihood $$l_n(\theta) = \frac{1}{n}\sum_{i=1}^n \log \frac{f_\theta(X_i)}{f_{\theta_0}(X_i)}$$ converges to $\lambda$ (the KL Information) uniformly from above: $$\lim_{n\rightarrow\infty}\sup_{\theta\in \omega} l_n(\theta) \leq \sup_{\theta\in \omega}\lambda(\theta) \text{ almost surely}$$
+
+However, the MLE doesn't always exist. We may be interested in what happens when we have an approximate MLE (AMLE) derived from a sequence of estimators $\{\overline\theta_n\}$. If the MLE exists, then this sequence should converge to the MLE, but if it doesn't exist, what does the AMLE converge to?
+
+\begin{theorem}[Consistency of the approximate MLE]\label{wald-thm-2}
+Let $\overline{\theta}_n(x_1, ..., x_n)$ be a function of the observations $x_1, ..., x_n$ such that \begin{align}
+\frac{f(x_1, \overline\theta_n) \cdots f(x_n, \overline\theta_n)}{f(x_1, \theta_0) \cdots f(x_n, \theta_0)} \geq c > 0
+\label{eqn:mle-consistent-wald}
+\end{align} 
+for all $n$ and $x_1, ..., x_n$. Then 
+$$\lim_{n\rightarrow\infty}\overline\theta_n = \theta_0 \text{ with probability }1.$$
+
+Since a maximum likelihood estimate $\hat\theta_n(x_1, \cdots, x_n)$, if it exists, obviously satisfies \Cref{eqn:mle-consistent-wald} with $c=1$, this establishes the consistency of $\hat\theta_n(x_1, \cdots, x_n)$ as an estimate of $\theta$.
+
+\pf{\underline{Proof:}\\
+It is sufficient to prove that for any $\epsilon > 0$ the probability is one that all limit points $\overline\theta$ of the sequence $\{\overline\theta_n\}$ satisfy the inequality $|\overline\theta - \theta_0| \leq \epsilon$. 
+The event that there exists a limit point $\overline\theta$ of the sequence $\{\overline\theta_n\}$ such that $|\overline\theta-\theta_0|>\epsilon$ implies that $$\sup_{|\theta-\theta_0|\geq\epsilon} f(x_1,\theta) \cdots f(x_n,\theta) \geq f(x_1,\overline\theta_n) \cdots f(x_n,\overline\theta_n) \text{ for infinitely many }n.$$ But then
+$$\frac{\sup_{|\theta-\theta_0|\geq\epsilon} f(x_1,\theta) \cdots f(x_n,\theta)}{f(x_1,\overline\theta_n) \cdots f(x_n,\overline\theta_n)}\geq c > 0 \text{ for infinitely many }n.$$ 
+Since, according to Theorem 1, this is an event with probability zero, we have shown that the probability is one that all limit points $\overline\theta$ of $\{\overline\theta_n\}$ satisfy the inequality $|\overline\theta-\theta_0| \leq \epsilon$. This completes the proof.
+}
+\end{theorem}
+
+This proves strong convergence, which is stronger than weak convergence (in the sense that consistency is a weak property - a property of distribution functions - and not a strong property - a property of infinite sequences of observed sums). 
+
+This proof was then extended by \citet{wolfowitzWaldProofConsistency1949}, to use only the weak law of large numbers. Wald's proof uses the strong LLN, but the same result (consistency) holds with the weak LLN, which is applicable to a larger class of variables.
+
+\begin{theorem}[Wolfowitz's Extension]\label{wolf-thm}
+Let $\eta$ and $\epsilon$ be given, arbitrarily small, positive numbers. Let $S(\theta_0,\eta)$ be the open sphere with center $\theta_0$ and radius $\eta$, and let $\Omega(\eta) = \Omega - S(\theta_0,\eta)$. Let Wald's assumptions 1-8 hold. 
+
+There exists a number $h(\eta)$, $0<h<1$, and another positive number $N(\eta,\epsilon)$ such that, for any $n>N(\eta,\epsilon)$, $$P_0\left\{
+\frac{\sup_{\theta\in\Omega(\eta)}\prod_{i=1}^n f(X_i,\theta)}
+{\prod_{1}^N f(X_i,\theta_0)} > h^n
+\right\}<\epsilon$$
+where $P_0$ is the probability of the relation in braces according to $f(x,\theta_0)$.
+\end{theorem}
+
+See \citet{wolfowitzWaldProofConsistency1949} for the proof.
+
+\section{Cram\`er: Asymptotic properties of MLEs}
+This section is based heavily on \citet{cramerMathematicalMethodsStatistics1946}.
+
+\begin{defn}{Likelihood function} A sample of $n$ values from a variable has likelihood $$L(x_1, ..., x_n,\theta) = \left\{\begin{array}{ll}f(x_1,\theta)\cdots f(x_n,\theta) & \text{if }x\text{ is continuous}\\ p(x_1,\theta)\cdots p(x_n,\theta) & \text{if }x\text{ is discrete}\end{array}\right.$$
+\end{defn}
+
+\begin{defn}{Maximum likelihood estimation}
+When $X^n = (x_1, ..., x_n)$ are observed, we obtain the maximum likelihood estimate $\hat\theta = \argmax_\theta f(X^n|\theta)$ as the solution to the likelihood equation $$\frac{\partial \log L}{\partial\theta} = 0$$ where $\theta$ is conditioned on the sample values.
+\end{defn}
+
+When an efficient estimate $\hat\theta$ of $\theta$ exists, the likelihood equation will have a unique solution equal to $\hat\theta$: $$\frac{\partial \log L}{\partial \theta}=\sum_{1}^n \frac{\partial\log f(x_i|\theta)}{\partial\theta} = \frac{\partial \log g}{\partial\theta} = k(\hat\theta-\theta).$$ 
+When a sufficient estimate $\hat\theta$ of $\theta$ exists, the likelihood equation reduces to $$\frac{\partial\log L}{\partial\theta} = \frac{\partial\log g(\hat\theta,\theta)}{\partial\theta} = 0$$
+
+\begin{defn}{Fisher Information}\\
+The Fisher information is the variance of the score:
+$$0\leq \FI(\theta) = E_{\theta_0}\left[\left.\left(\frac{\partial}{\partial\theta}\log f(X,\theta)\right)^2\right|_{\theta=\theta_0}\right] = \left.\int_\R\left(\frac{\partial}{\partial\theta}\log f(x,\theta)\right)^2f(x,\theta)dx\right|_{\theta=\theta_0}$$
+If $\log f(x,\theta)$ is twice differentiable with respect to $\theta$, and under certain regularity conditions, the FI may also be written as 
+$$\FI(\theta)=-E_{\theta_0}\left[\left.\frac{\partial^2}{\partial\theta^2}\log f(X,\theta)\right|_{\theta=\theta_0}\right]$$
+\end{defn}
+
+\begin{theorem}{Asymptotic Normality of the MLE}\label{mle-normality}\\
+Let $X^n_1$ be iid $f_\theta$ where $\Omega\subset\R$ is an open interval, all $f_\theta$ have common support, $0<\FI(\theta)<\infty$, $\int f(x|\theta)dx$ is twice differentiable under the integral, and $$E \sup_{\theta\in B(\theta_0,\epsilon)} \left|\vphantom{\displaystyle\frac{\partial}{\partial}}\right.\underbrace{\frac{\partial^3}{\partial\theta^3}\log f(x|\theta)}_{\text{exists}}\left.\vphantom{\displaystyle\frac{\partial}{\partial}}\right|<\infty.$$
+Suppose $\hat\theta_n$ is a consistent sequence of roots of the likelihood equation. Then $$\sqrt{n}\left(\hat\theta_n - \theta\right) \convdist N\left(0,\FI(\theta)^{-1}\right)$$
+\pf{
+\underline{Proof:}\\
+Write $L(\theta|X^n) = \log f(X^n|\theta)$ (we regard $X^n$ as fixed)\\
+Taylor expansion gives 
+\begin{align*}
+\underbrace{0 =}_{\hat\theta\text{ is MLE}} L^\prime(\hat\theta_n) &= L^\prime(\theta_0) + (\hat\theta-\theta_0)L^{\prime\prime}(\theta_0) + \frac{1}{2}(\hat\theta-\theta_0)^2 L^{\prime\prime\prime}(\theta^\ast) & \theta_n^\ast\in\left[\theta_0,\hat\theta_n\right]\\
+\sqrt{n}(\hat\theta-\theta_0) &= \frac{\overbrace{\frac{1}{\sqrt{n}} L^\prime(\theta_0)}^{*1}}{\underbrace{-\frac{1}{n} L^{\prime\prime}(\theta_0)}_{*2}-\underbrace{\frac{1}{2n}(\hat\theta-\theta_0)L^{\prime\prime\prime}(\theta^\ast)}_{*3}} := H_n
+\end{align*}
+}\\
+\pf{(cont'd)\\
+We examine each labeled component separately:
+\begin{align*}
+\begin{array}{rrl}
+*1:& \frac{1}{\sqrt{n}}L^\prime(\theta_0) = \sqrt{n}\left(\frac{1}{n}\sum_{i=1}^n\frac{f^\prime(X_i|\theta_0)}{f(X_i|\theta_0)} - \underbrace{E\left[\frac{f^\prime(X_1|\theta_0)}{f(X_1|\theta_0)}\right]}_{=0}\right) \underbrace{\convdist}_{ \text{ (by CLT)}} &N(0,\FI(\theta_0))\\\\
+*2:& -\frac{1}{n}L^{\prime\prime}(\theta_0) \underbrace{\convprob}_{(by LLN)} &\FI(\theta_0)\\\\
+*3:& (\hat\theta - \theta_0) \cdot \frac{1}{2}\cdot \frac{1}{n}\left|L^{\prime\prime\prime}(\theta^\ast)\right|\\
+&\frac{1}{n}\left|L^{\prime\prime\prime}(\theta^\ast)\right| \leq \frac{1}{n}\sum_{i=1}^n \sup_{\theta\in B(\theta_0,\epsilon)}\left|\frac{\partial^3}{\partial\theta^3}\log f(X_i|\theta)\right|\leq E\sup \left|\frac{\partial^3}{\partial\theta^3}\right| < \infty\\
+&\text{But }(\hat\theta-\theta_0)\convprob 0\\
+&\text{So }\frac{1}{2}\cdot \frac{1}{n}\left|L^{\prime\prime\prime}(\theta^\ast)\right|\cdot (\hat\theta - \theta_0)  \conv &0.
+\end{array}
+\end{align*}
+Combining the above results and using Slutsky's theorem, we have $$H_n\convdist -\frac{1}{\FI(\theta_0)}N(0,\FI(\theta_0))\overset{d}{=}N\left(0,\frac{1}{\FI(\theta_0)}\right)\text{ under }\theta_0$$
+}
+\end{theorem}
+
+\begin{defn}{Expected and Observed Fisher Information}\\
+\begin{align*}
+\FI_1(\hat\theta_n)& \text{ is the "expected Fisher information"}\\
+-\frac{1}{n}L^{\prime\prime}(\hat\theta_n)& \text{ is the "observed Fisher Information"}
+\end{align*}
+\end{defn}
+
+\begin{theorem}{Asymtotic Efficiency of MLE}
+Under the assumptions of \Cref{mle-normality}, under $\theta_0$, $$(\hat\theta_n-\theta_0)\sqrt{-L^{\prime\prime}(\hat\theta_n)}\convdist N(0,1)$$
+\underline{Note:}\\
+For a sequence of estimators $\{\hat\theta^\ast_n\}$ with $\sqrt{n}(\hat\theta^\ast_n-\theta_0)\convdist N\left(0,V(\theta_0)\right)$, under $\theta_0$,
+$$\frac{\frac{1}{\FI_1(\theta_0)}}{V(\theta_0)} \text{ is called the \textbf{asymptotic efficiency} of }\{\hat\theta_n^\ast\}$$
+It is possible (even in regular problems) to find some $\theta_0$ for which the asymptotic efficiency is larger than one (super-efficiency). There are theorems that say that we cannot have too many super-efficiency points.
 \end{theorem}
 
 
+\section{Asymptotic Behavior of Posterior Distributions}
+This section is from \citet{walkerAsymptoticBehaviourPosterior1969}. Consider a prior $\pi(\theta)$ and a parametric family $f(\cdot|\theta)$. Impose the following conditions:
+\begin{enumerate}
+\itemA $\Omega\subset\R$ is a closed set
+\itemA $\sup f(\cdot|\theta)$ is independent of $\theta$
+\itemA if $\theta_1 \neq \theta_2$ then $\mu\{x: f(x|\theta_1)\neq f(x|\theta_2)\} > 0$ ($\mu$ is a $\sigma$-finite measure)
+\itemA if $\delta>0$ is sufficiently small, $E_{\theta_0} \displaystyle\sup_{\theta:|\theta-\theta^\prime|<\delta}\left|\log f(x|\theta)\right| \conv 0 \text{ as }\delta\conv0$
+\itemA if $\Omega$ not bounded, then for any $\theta_0\in\Theta$ and sufficiently large $\Delta$, $$\log f(x|\theta)-\log f(x|\theta_0) < K_\Delta(x,\theta) \;\;\; \text{whenever }|\theta|>\Delta,$$
+where $\displaystyle\lim_{\Delta\rightarrow\infty}\int K_\Delta(x|\theta_0)f(x|\theta_0)d\mu\;\;<0$
+(It is allowable for the limit to be $-\infty$ here)
+\end{enumerate}
+These conditions are introduced to ensure that when $\theta_0$ is the true value of $\theta$, $L_n(\theta)-L_n(\theta_0)$ is sufficiently small, with probability converging to 1 as $n\conv\infty$. for all values of $\theta$ not near to $\theta_0$.
 
+In the next conditions, let $\theta_0$ be an interior point of $\Theta$
+\begin{enumerate}
+\itemB $\log f(x|\theta)$ is twice differentiable with respect to $\theta$ in some neighborhood of $\theta_0$
+\itemB $\FI(\theta_0) =\displaystyle\int f(x|\theta_0)\left(\frac{\partial\log f(x|\theta_0)}{\partial\theta_0}\right)^2d\mu$. Then $0<\FI(\theta_0)<\infty$.
+\itemB $\displaystyle\int\frac{\partial f(x|\theta_0)}{\partial\theta_0} d\mu = \int \frac{\partial^2 f(x|\theta_0)}{\partial\theta_0^2} d\mu=0$
+\itemB If $|\theta-\theta_0|<\delta$, where $\delta$ is sufficiently small, then $$\left|\frac{\partial^2\log f(x|\theta)}{\partial\theta^2} - \frac{\partial^2 f(x|\theta_0)}{\partial\theta_0^2}\right|<M_\delta(x,\theta_0) \text{ where }\lim_{\delta\rightarrow 0}\int M_\delta(x,\theta_0)f(x|\theta_0)d\mu = 0$$
+This is equivalent to $\displaystyle E_{\theta_0}\sup_{\theta:|\theta-\theta_0|<\delta} \left|\frac{\partial^2}{\partial\theta^2} \log f(x|\theta)\right|<\infty.$
+\end{enumerate}
+These conditions make $L^{\prime\prime}_n(\cdot)$ behave smoothly for values of $\theta$ near $\theta_0$; asymptotic normality of $\hat\theta_n$ is used only to show that $\hat\theta_n-\theta_0 = O_p(\sqrt{n})$. These conditions also ensure that when $\theta=\theta_0$, $\sqrt{n}(\hat\theta_n-\theta_0) \convdist N(0,1/\FI(\theta_0))$.
 
+\begin{enumerate}
+\itemC $\pi$ is continuous at $\theta=\theta_0$ and $\pi(\theta_0)>0$
+\end{enumerate}
+Denote the MLE by $\hat\theta_n, \hat\theta$
+
+\begin{theorem}{Asymptotic Normality of the Posterior Distribution}\\
+Assume the regularity conditions above. Suppose the $X_i$s are iid $f(\theta_i)$. Let $\sigma_n = \left(-L^{\prime\prime}_n(\hat\theta_n)\right)^{-1/2}$. Then for all $a,b$,
+$$\int_{\hat\theta_n+b\sigma_n}^{\hat\theta_n+a\sigma_n}\pi_n(\theta|X^n)d\theta \convprob \frac{1}{\sqrt{2\pi}}\int_b^a \exp\left(-\frac{1}{2}y^2\right) dy$$
+\end{theorem}
+
+This theorem arises due to several preliminary results:
+\begin{lemma}
+Let $N_0(\delta) = \{\theta:|\theta-\theta_0|<\delta\} = B(\theta_0,\delta)\subset\Omega$. Then there exists a positive number $k(\delta)$ that depends on $\delta$ such that
+\begin{align}\lim_{n\conv\infty}P\left[\sup_{\theta\in\Theta-N_0(\delta)} n^{-1}\{L_n(\theta)-L_n(\theta_0)<-k(\delta)\right]&=1\end{align}
+This obviously implies that $\hat\theta_n$ is weakly consistent, that is, $p\displaystyle\lim_{n\conv\infty}\hat\theta_n = \theta_0$
+\end{lemma}
+
+\begin{lemma}
+\begin{align}\frac{1}{n}L^{\prime\prime}(\hat\theta_n)&\convprob -\FI(\theta_0)\end{align}
+\end{lemma}
+
+\begin{lemma}
+$L_n(\theta_0) - L_n(\hat\theta) = O_p(1)$
+\end{lemma}
+
+\begin{cor}$E(\Theta|X^n) \convprob \theta_0$ provided $\left|\int\theta\pi(\theta)d\theta\right|<\infty$
+\end{cor}
+
+\begin{theorem}
+Assume that $\tilde\theta = E(\theta|X^n)$ is the Bayes estimator under squared error loss with prior density $\omega$ and that the conditions of Walker's theorem hold. Then $\sqrt{n}(\tilde\theta-\theta_0)\convdist N(0,\FI(\theta_0)^{-1})$, that is, $\tilde\theta$ is consistent and asymptotically efficient.
+
+\end{theorem}
 \bibliography{refs}
 \end{document}
