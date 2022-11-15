@@ -1,0 +1,375 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+% \usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgment}[theorem]{Acknowledgment}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+% \renewnewenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\newcommand{\vps}{\varepsilon}
+\newcommand{\lvec}{\stackrel{ \leftarrow}{\alpha}}
+\newcommand{\ty}{\textstyle}
+\newcommand{\ds}{\displaystyle}
+
+\newcommand{\Lower}[1] {\smash{\lower 1.5 ex
+                        \hbox{#1}}} 
+
+\newcommand{\MLower}[2]{\smash{\lower #2 ex
+                        \hbox{#1}}} 
+
+%\renewcommand{\theequation}{{\rm \thesection.\arabic{equation}}}
+
+\newcommand{\gm}{\gamma}
+\newcommand{\ub}{\ul{\beta}}
+\newcommand{\ue}{\ul{\epsilon}}
+\newcommand{\uo}{\ul{0}}
+\newcommand{\ut}{\ul{\tau}}
+\newcommand{\uy}{\ul{y}}
+\newcommand{\cR}{{\cal R}}
+\newcommand{\Lm}{\Lambda}
+\newcommand{\lm}{\lambda}
+
+\newcommand{\ulm}{\ul{\lambda}}
+\newcommand{\uLm}{\ul{\Lambda}}
+
+\newcommand{\ueh}{\widehat{\ul{\epsilon}}}
+\newcommand{\bvh}{\widehat{\ul{\beta}}}
+\newcommand{\tauvh}{\widehat{\ul{\tau}}}
+
+\newcommand{\sh}{\widehat{\sigma}}
+\newcommand{\lpr}{\left(}
+\newcommand{\rpr}{\right)}
+\newcommand{\lbr}{\left[}
+\newcommand{\rbr}{\right]}
+\newcommand{\lcr}{\left\{}
+\newcommand{\rcr}{\right\}}
+\newcommand{\xtx}{X^{'}X}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\re}{\text{Re }}
+\newcommand{\im}{\text{Im }}
+\newcommand{\convprob}{\overset{p}\rightarrow}
+\newcommand{\convdist}{\overset{d}\rightarrow}
+\newcommand{\conv}{\rightarrow}
+\newcommand{\var}{\text{ Var}}
+\newcommand{\sig}{$\sigma$}
+\newcommand{\as}{\text{ a.s. }}
+\renewcommand{\ae}{\text{ a.e. }}
+\newcommand{\F}{\mathcal F}
+\newcommand{\G}{\mathcal G}
+\newcommand{\B}{\mathcal B}
+\newcommand{\psp}{$(\Omega, \F, \mathcal P)$}
+\newcommand{\bftheta}{\boldsymbol{\theta}}
+\newcommand{\bfepsilon}{\boldsymbol{\epsilon}}
+\newcommand{\bfeta}{\boldsymbol{\eta}}
+
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+\headheight=15pt
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Module 3, Homework 1}
+\newcommand{\hmwkDueDate}{November 22, 2022}
+\newcommand{\hmwkAuthorName}{}
+\newcommand{\hmwkClass}{Stat 982}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\: \hmwkTitle}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next
+page\ldots}\nobreak\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak}%
+
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1
+continued on next page\ldots}\nobreak\nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]{\vspace{.1in}\noindent\fbox{\begin{minipage}[c]{.87\textwidth}#1\end{minipage}}\vspace{.1in}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+  
+\enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}
+   }%
+
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\\small{Due\ on\ \hmwkDueDate}}
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+\begin{homeworkProblem} % Stat 643 Homework 5 Problem 1
+Suppose that $X^{'}$  is exponential with mean $\lambda^{-1}$ 
+(i.e., it has density $f_{\lambda}(x)=\lambda\exp(-\lambda x)I[x \ge 0]$ 
+with respect to the Lebesgue measure on
+$\R^1$), but that one only observes $X=X^{'}I[X^{'} \ge 1]$.  
+(There is interval censoring below $X^{'} = 1$.)
+
+Consider the maximum likelihood estimation of $\lambda$ based on $X_1, \ldots, X_n$,
+which are iid with the distribution $P_\lambda^X$. Let $\delta_i=I[X_i \ne 0]$, for
+$i=1, \ldots, n$. Let $M_n=n-\sum_{i=1}^n\delta_i$; that is, $M_n$ 
+is the number of $X_i$'s equal to 0.
+
+\begin{itemize}
+
+\item[(a)]  Show that there is no maximum likelihood estimate (MLE) of $\lambda$
+when $M_n=n$, but there is an MLE of $\lambda$ when $M_n<n$.
+
+\item[(b)]  Show that  for any $\lambda \in (0, \infty)$,  with $\lambda$-probability
+(that is, $P_\lambda^{X^n}$-probability) tending to 1, the MLE of $\lambda$,
+$\widehat{\lambda}_n$, exists.
+
+\item[(c)] Give a simple estimator of $\lambda$ based on $M_n$ alone.  
+Prove that this estimator is consistent for $\lambda$. Then write down an 
+explicit one-step Newton improvement of your estimator based on the likelihood
+function  from part~(a).
+
+\item[(d)] Discuss what numerical methods you could use to find the MLE
+from part~(a) when it exists.
+
+\item[(e)] Give  two  forms of large-sample (Wald-type)  confidence intervals 
+for $\lambda$ based on the MLE  $\widehat{\lambda}_n$ and two different 
+approximations to $I_1(\lambda)$. 
+
+\end{itemize}
+\end{homeworkProblem}
+\clearpage
+\begin{homeworkProblem} % Stat 643 Homework 5 Problem 2
+Suppose that  $X_1,  \ldots, X_n$ are iid with the distribution 
+$P_\theta$ for $\theta \in \R^1$, where  $P_\theta$ has the  R-N derivative
+with respect to the counting measure $\nu$ on ${\cal X}=\{0, 1, 2\}$ given by
+\[
+f_\theta(x)=\frac{\exp(x\theta)}{1+\exp(\theta)+\exp(2\theta)}.
+\]
+
+\begin{itemize}
+
+\item[(a)]  Find an estimator $T_n$ of $\theta$ based on 
+$n_0=\sum_{i=1}^{n}I[X_i=0]$ such that $T_n$ 
+is $\sqrt{n}$-consistent (that is, $\sqrt{n}(T_n-\theta)$ 
+is bounded in probability).
+
+\item[(b)] Find an explicit one-step Newton improvement of your estimator 
+from part~(a).
+
+\item[(c)] (Optional) Prove directly that  your estimator from part~(b), denoted by
+$\widetilde{\theta}_n$, is asymptotically normal with variance $1/I_1(\theta)$. 
+(Hint: Note that
+\[
+\widetilde{\theta}_n=T_n-\frac{L_n^{'}(T_n)}
+{L_n^{''}(T_n)},\]
+and write $L_n^{'}(T_n)=L_n^{'}(\theta)
++(T_n-\theta)L_n^{''}(\theta)
++\frac{1}{2}(T_n-\theta)^2L_n^{'''}(\theta_n^{*})$
+for some $\theta_n^{*}$ between $T_n$ and $\theta$.)
+
+
+\item[(d)] (Optional) Let $\overline{X}=\frac{1}{n}\sum_{i=1}^n X_i$. 
+Show that, if $\overline{X} \in (0, 2)$, the log-likelihood function
+has a unique maximizer 
+\[
+\widehat{\theta}_n=\log \left(
+\frac{ \overline{X}-1+\sqrt{-3\overline{X}^2+6\overline{X}+1} }
+{ 2(2-\overline{X}) } \right).
+\]
+
+
+\item[(e)] Prove that  an estimator defined to be $\widehat{\theta}_n$ in
+part~(d) when $\overline{X} \in (0, 2)$ is asymptotically normal with 
+variance $1/I_1(\theta)$.
+
+\item[(f)] Show that $-\frac{1}{n}L^{''}(\theta)=I_1(\theta)$, for
+$n=1, 2, \ldots$ and $\theta \in \R^1$. (Thus the ``observed Fisher 
+information''  and ``expected Fisher information'' approximations 
+lead to the same large-sample confidence intervals for $\lambda$.)  
+
+\end{itemize}
+Note: A version of nearly everything in this problem works in any one-parameter 
+exponential family.
+\end{homeworkProblem}
+
+\clearpage
+\section{Relevant notes from Stat 643 at ISU}
+\setcounter{theorem}{172}
+An honest version of the Stat 543 (MS theory  course) ``MLE's are asymptotically Normal'' is next.
+
+\begin{theorem}
+\label{MLENormal}Suppose that $k=1$ and there exists an open neighborhood of
+$\theta_{0}$, say $\mathcal{O}$, such that
+
+\begin{enumerate}
+\item $f_{\theta}\left(  x\right)  >0$ $\forall x$ and $\forall\theta
+\in\mathcal{O}$,
+
+\item $\forall x$, $f_{\theta}\left(  x\right)  $ is three times
+differentiable at every point of $\mathcal{O}$,
+
+\item there exist $M\left(  x\right)  \geq0$ with E$_{\theta_{0}}M\left(
+X\right)  <\infty$ and%
+\[
+\left\vert \frac{d^{3}}{d\theta^{3}}\ln f_{\theta}\left(  x\right)
+\right\vert \leq M\left(  x\right)  \text{ }\forall x\text{ and }\forall
+\theta\in\mathcal{O},
+\]
+
+
+\item $1=\int f_{\theta}\left(  x\right)  d\mu\left(  x\right)  $ can be
+differentiated twice with respect to $\theta$ under the integral at
+$\theta_{0}$, and
+
+\item $I_{1}\left(  \theta\right)  \in\left(  0,\infty\right)  $
+$\forall\theta\in\mathcal{O}$.
+\end{enumerate}
+
+\noindent If with $\theta_{0}$ probability approaching $1$, $\hat{\theta}_{n}$
+is a root of the likelihood equation and $\hat{\theta}_{n}\rightarrow
+\theta_{0}$ in $\theta_{0}$ probability, then under $\theta_{0}$%
+\[
+\sqrt{n}\left(  \hat{\theta}_{n}-\theta_{0}\right)  \overset{d}{\rightarrow
+}\text{N}\left(  0,\frac{1}{I_{1}\left(  \theta_{0}\right)  }\right)
+\]
+
+\end{theorem}
+
+\begin{corollary}
+\label{MLENormal1}Under the hypotheses of Theorem \ref{MLENormal}, if
+$I_{1}\left(  \theta\right)  $ is continuous at $\theta_{0}$, then under
+$\theta_{0}$%
+\[
+\sqrt{nI_{1}\left(  \hat{\theta}_{n}\right)  }\left(  \hat{\theta}_{n}%
+-\theta_{0}\right)  \overset{d}{\rightarrow}\text{N}\left(  0,1\right)
+\]
+
+\end{corollary}
+
+\begin{corollary}
+\label{MLENormal2}Under the hypotheses of Theorem \ref{MLENormal}, under
+$\theta_{0}$%
+\[
+\sqrt{-L_{n}^{\prime\prime}\left(  \hat{\theta}_{n}\right)  }\left(
+\hat{\theta}_{n}-\theta_{0}\right)  \overset{d}{\rightarrow}\text{N}\left(
+0,1\right)
+\]
+
+\end{corollary}
+
+What is often a more practically useful result (parallel to Theorem
+\ref{MLENormal}) concerns ``one-step Newton improvements'' on ``$\sqrt{n}%
+$-consistent'' estimators. \ (The following is a special case of Schervish's
+Theorem 7.75.)
+
+\begin{theorem}
+\label{NewtonNormal}Under the hypotheses 1-5 of Theorem \ref{MLENormal},
+suppose that under $\theta_{0}$ estimators $T_{n}$ are $\sqrt{n}$-consistent,
+that is $\sqrt{n}\left(  T_{n}-\theta_{0}\right)  $ converges in distribution
+(or more generally, is $O\left(  1\right)  $ in $\theta_{0}$ probability).
+\ Then with%
+\[
+\tilde{\theta}_{n}=T_{n}-\frac{L_{n}^{\prime}\left(  T_{n}\right)  }%
+{L_{n}^{\prime\prime}\left(  T_{n}\right)  }%
+\]
+under $\theta_{0}$%
+\[
+\sqrt{n}\left(  \tilde{\theta}_{n}-\theta_{0}\right)  \overset{d}{\rightarrow
+}\text{N}\left(  0,\frac{1}{I_{1}\left(  \theta_{0}\right)  }\right)
+\]
+
+\end{theorem}
+
+It is then obvious that versions of Corollaries \ref{MLENormal1}\ and
+\ref{MLENormal2} hold where $\hat{\theta}_{n}$ is replaced by $\tilde{\theta
+}_{n}$.
+
+
+\end{document}
